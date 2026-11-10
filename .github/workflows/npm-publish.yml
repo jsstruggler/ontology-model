@@ -26,13 +26,16 @@ jobs:
               with:
                   node-version: "22"
                   cache: "yarn"
-                  registry-url: "https://npmjs.org"
+                  registry-url: "https://registry.npmjs.org"
 
-            - name: 3. Устанавливаем JS-зависимости через Yarn
+            - name: 3. Принудительно обновляем npm CLI для поддержки OIDC v11+
+              run: npm install -g npm@latest
+
+            - name: 4. Устанавливаем JS-зависимости через Yarn
               run: yarn install --frozen-lockfile
 
-            - name: 4. Сборка пакета (создание папки dist)
+            - name: 5. Сборка пакета (создание папки dist)
               run: yarn build
 
-            - name: 5. Публикуем пакет в npm через Trusted Publishing
+            - name: 6. Публикуем пакет в npm через Trusted Publishing
               run: npm publish --provenance --access public
