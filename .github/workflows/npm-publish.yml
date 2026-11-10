@@ -34,8 +34,5 @@ jobs:
             - name: 4. Сборка пакета (создание папки dist)
               run: yarn build
 
-            - name: 5. Автоматически увеличиваем patch-версию пакета
-              run: npm version patch --no-git-tag-version
-
-            - name: 6. Публикуем пакет в npm через Trusted Publishing
-              run: npm publish --provenance --access public
+            - name: 5. Публикуем пакет в npm через Trusted Publishing
+              run: npm publish --access public
