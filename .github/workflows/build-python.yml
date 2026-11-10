@@ -40,9 +40,9 @@ jobs:
 
       - name: 7. Генерируем Pydantic v2 модели в папку пакета
         run: |
-          datamodel-code-generator \
+          python -m datamodel_code_generator \
             --input schema.json \
-            --output python_pkg/ontology_model/models.py \
+            --output python_pkg/ontology_model \
             --input-file-type jsonschema \
             --output-model-type pydantic_v2.BaseModel
 
@@ -54,8 +54,8 @@ jobs:
           # Переключаемся на специальную релизную ветку для Python
           git checkout -B python-release
 
-          # Принудительно добавляем сгенерированный файл (даже если он в .gitignore)
-          git add -f python_pkg/ontology_model/models.py
+          # ИЗМЕНЕНИЕ: Добавляем ВСЕ сгенерированные файлы внутри папки ontology_model
+          git add -f python_pkg/ontology_model/
 
           # Фиксируем изменения. Если изменений нет, плавно завершаем шаг
           git commit -m "chore: auto-generate python models [skip ci]" || exit 0

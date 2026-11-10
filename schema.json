@@ -1,0 +1,29 @@
+{
+  "$ref": "#/definitions/OntologyModelData",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "EntityData<structure-0.8564246112591343>": {
+      "$ref": "#/definitions/Prettify%3C(indexed-type-309006187-355-503-309006187-355-973-309006187-345-975-309006187-287-976-309006187-0-977%3Cstructure-0.8564246112591343%3E%26indexed-type-309006187-505-656-309006187-355-973-309006187-345-975-309006187-287-976-309006187-0-977%3Cstructure-0.8564246112591343%3E%26indexed-type-309006187-797-885-309006187-745-972-309006187-658-973-309006187-355-973-309006187-345-975-309006187-287-976-309006187-0-977%3Cstructure-0.8564246112591343%3E)%3E"
+    },
+    "OntologyModelData": {
+      "$ref": "#/definitions/Prettify%3Cindexed-type-src_index.ts-289-385-src_index.ts-279-386-src_index.ts-246-387-src_index.ts-0-499%3E"
+    },
+    "Prettify<(indexed-type-309006187-355-503-309006187-355-973-309006187-345-975-309006187-287-976-309006187-0-977<structure-0.8564246112591343>&indexed-type-309006187-505-656-309006187-355-973-309006187-345-975-309006187-287-976-309006187-0-977<structure-0.8564246112591343>&indexed-type-309006187-797-885-309006187-745-972-309006187-658-973-309006187-355-973-309006187-345-975-309006187-287-976-309006187-0-977<structure-0.8564246112591343>)>": {
+      "additionalProperties": false,
+      "properties": {},
+      "type": "object"
+    },
+    "Prettify<indexed-type-src_index.ts-289-385-src_index.ts-279-386-src_index.ts-246-387-src_index.ts-0-499>": {
+      "additionalProperties": false,
+      "properties": {
+        "well": {
+          "items": {
+            "$ref": "#/definitions/EntityData%3Cstructure-0.8564246112591343%3E"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  }
+}
