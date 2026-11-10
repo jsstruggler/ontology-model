@@ -1,0 +1,64 @@
+name: Build Python Package
+
+on:
+  push:
+    branches:
+      - main # Запускается при каждом пуше (или мерже PR) в ветку main
+    paths-ignore:
+      - "python_pkg/**" # Игнорируем изменения в самой папке python, чтобы избежать бесконечного цикла коммитов в CI
+
+permissions:
+  contents: write # Дает GitHub Actions право делать коммиты и пушить их в ваш репозиторий
+
+jobs:
+  generate-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Клонируем репозиторий
+        uses: actions/checkout@v4
+
+      - name: 2. Настраиваем Node.js и активируем Yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn" # Кэширование зависимостей для быстрой сборки
+
+      - name: 3. Устанавливаем JS-зависимости
+        run: yarn install --frozen-lockfile
+
+      - name: 4. Генерируем JSON Schema из TypeScript
+        run: yarn gen:schema
+
+      - name: 5. Настраиваем Python-окружение
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 6. Устанавливаем генератор Python-моделей
+        run: pip install datamodel-code-generator
+
+      - name: 7. Генерируем Pydantic v2 модели в папку пакета
+        run: |
+          datamodel-code-generator \
+            --input schema.json \
+            --output python_pkg/ontology_model/models.py \
+            --input-file-type jsonschema \
+            --output-model-type pydantic_v2.BaseModel
+
+      - name: 8. Публикуем готовый Python-пакет в ветку python-release
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+          # Переключаемся на специальную релизную ветку для Python
+          git checkout -B python-release
+
+          # Принудительно добавляем сгенерированный файл (даже если он в .gitignore)
+          git add -f python_pkg/ontology_model/models.py
+
+          # Фиксируем изменения. Если изменений нет, плавно завершаем шаг
+          git commit -m "chore: auto-generate python models [skip ci]" || exit 0
+
+          # Пушим ветку в репозиторий с флагом -f (force), чтобы перезаписать старый релиз
+          git push -f origin python-release
