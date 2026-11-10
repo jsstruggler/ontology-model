@@ -31,8 +31,11 @@ jobs:
             - name: 3. Устанавливаем JS-зависимости через Yarn
               run: yarn install --frozen-lockfile
 
-            - name: 4. Автоматически увеличиваем patch-версию пакета
+            - name: 4. Сборка пакета (создание папки dist)
+              run: yarn build
+
+            - name: 5. Автоматически увеличиваем patch-версию пакета
               run: npm version patch --no-git-tag-version
 
-            - name: 5. Публикуем пакет в npm через Trusted Publishing
-              run: npm publish --provenance
+            - name: 6. Публикуем пакет в npm через Trusted Publishing
+              run: npm publish --provenance --access public
