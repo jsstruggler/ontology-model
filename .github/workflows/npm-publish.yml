@@ -26,7 +26,7 @@ jobs:
               with:
                   node-version: "22"
                   cache: "yarn"
-                  registry-url: "https://npmjs.org"
+                  registry-url: "https://npmjs.com"
 
             - name: 3. Устанавливаем JS-зависимости через Yarn
               run: yarn install --frozen-lockfile
@@ -35,4 +35,4 @@ jobs:
               run: yarn build
 
             - name: 5. Публикуем пакет в npm через Trusted Publishing
-              run: npm publish --access public
+              run: npm publish --provenance --access public
