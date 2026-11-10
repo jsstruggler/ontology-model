@@ -1,0 +1,38 @@
+name: Publish NPM Package
+
+on:
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - "python_pkg/**"
+
+permissions:
+    id-token: write
+    contents: read
+
+jobs:
+    npm-release:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 1. Клонируем репозиторий
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: 2. Настраиваем Node.js и активируем Yarn
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+                  cache: "yarn"
+                  registry-url: "https://npmjs.org"
+
+            - name: 3. Устанавливаем JS-зависимости через Yarn
+              run: yarn install --frozen-lockfile
+
+            - name: 4. Автоматически увеличиваем patch-версию пакета
+              run: npm version patch --no-git-tag-version
+
+            - name: 5. Публикуем пакет в npm через Trusted Publishing
+              run: npm publish --provenance

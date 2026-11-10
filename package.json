@@ -1,6 +1,6 @@
 {
-  "name": "ontologyModel",
-  "version": "1.0.0",
+  "name": "ontology-model-jsstruggler",
+  "version": "1.0.1",
   "type": "module",
   "files": [
     "dist"
